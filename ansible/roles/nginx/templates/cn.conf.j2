@@ -1,0 +1,9 @@
+location /ja/cn {
+    access_log /var/log/nginx/cn.access.log main;
+    error_log /var/log/nginx/cn.error.log;\
+
+    index index.html index.htm index.php
+    try_files $uri $uri/ /ja/cn/index.php?$args;
+
+    include /etc/nginx/conf.d/corp/restrictions.conf;
+}

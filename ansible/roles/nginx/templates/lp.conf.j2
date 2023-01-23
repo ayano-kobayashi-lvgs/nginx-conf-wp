@@ -1,0 +1,9 @@
+location /lp {
+    access_log /var/log/nginx/lp.access.log  main;
+    error_log /var/log/nginx/lp.error.log;
+
+    index  index.html index.htm index.php;
+    try_files $uri $uri/ /index.php?$args =404;
+
+    include /etc/nginx/conf.d/corp/restrictions.conf;
+}

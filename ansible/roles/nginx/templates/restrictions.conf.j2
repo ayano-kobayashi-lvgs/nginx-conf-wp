@@ -1,0 +1,47 @@
+# Wordpress管理コンソールログイン画面アクセス
+location ~* /wp-login\.php {
+    index index.php index.html index.htm;
+
+    set_real_ip_from 192.168.1.0/24;
+    set_real_ip_from 192.168.2.0/24;\
+    real_ip_header X-Forwarded-For;
+    real_ip_recursive on;
+
+    allow 221.115.227.202/32; # スクランブルスクエア24F（メイン）
+    allow 202.215.75.103/32;  # スクランブルスクエア24F（バックアップ）
+    allow 221.115.214.162/32; # スクランブルスクエア25F（メイン）
+    allow 202.215.75.197/32;  # スクランブルスクエア25F（バックアップ）
+    allow 221.242.248.98/32;  # 渋谷清水ビル3F
+    allow 124.33.239.218/32;  # 渋谷清水ビル4F
+    allow 113.38.41.138/32;   # 大阪堂島7F
+    allow 113.32.45.122/32;   # 大阪堂島8F
+    allow 133.175.3.10/32;    # 大阪堂島8F（冗長化）
+    allow 113.37.143.90/32;   # 大阪ゲートタワー10F
+    allow 221.112.40.106/32;  # 全社VPN
+    allow 113.33.145.46/32;   # スクランブルスクエア24F（メイン-2）
+    allow 113.33.145.46/32;   # スクランブルスクエア24F（メイン-2）
+    allow 113.33.145.50/32;   # スクランブルスクエア25F（メイン-2）
+    allow 220.247.125.251/32; # スクランブルスクエア25F（バックアップ-2）
+    deny all;
+
+    include conf.d/corp/fastcgi-for-wordpress;
+}
+
+location ~* /\. {
+    deny all;
+}
+
+location ~* /(?:uploads|files)/.*\.php$ {
+    deny all;
+}
+
+location ~* \.(js|css|png|jpg|jpeg|gif|ico)$ {
+    expires max;
+    log_not_found off;
+}
+
+location ~ /\. {
+    return 404;
+}
+
+include conf.d/corp/fastcgi-for-wordpress;
