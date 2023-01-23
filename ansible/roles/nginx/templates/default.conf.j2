@@ -1,0 +1,32 @@
+server {
+    listen *:80;
+    server_name {{ nginx_server_name }}
+    charset utf-8;
+    root /var/www/leveragescareer.com/current;
+
+    fastcgi_buffers 8 256K;
+    fastcgi_buffer_size 256K;
+    fastcgi_busy_buffers_size 512K;
+
+    proxy_buffer_size 512K;
+    proxy_buffers 4 1024K;
+    proxy_busy_buffers_size 1024K;
+
+    client_max_body_size 30m;
+    client_body_buffer_size 5m;
+
+    add_header Strict-Transport-Security "max-age=31536000; includeSubDomains";
+
+    location = /favicon.ico {
+        log_not_found off;
+        access_log off;
+    }
+
+    location = /robots.txt {
+        allow all;
+        log_not_found off;
+        access_log off;
+    }
+
+    include /etc/nginx/sites-enabled/*;
+}

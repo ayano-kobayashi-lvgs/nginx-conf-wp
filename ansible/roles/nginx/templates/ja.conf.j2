@@ -1,0 +1,5 @@
+location / {
+    index index.html index.htm index.php
+    try_files $uri $uri/ /index.html?q=$uri&args /index.php?q=$uri&args =404
+    include conf.d/corp/fastcgi-for-wordpress;
+}
